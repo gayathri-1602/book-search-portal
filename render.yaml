@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: book-search-portal
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python seed_db.py && gunicorn "src.app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: PYTHONPATH
+        value: .
+      - key: FLASK_ENV
+        value: production

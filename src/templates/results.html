@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results</h1>
+        {% if books %}
+            <div class="results-grid">
+                {% for book in books %}
+                    <article class="book-card">
+                        {% if book.cover_url %}
+                        <div class="book-cover">
+                            <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}">
+                        </div>
+                        {% endif %}
+                        <div class="book-card-header">{{ book.title }}</div>
+                        <div class="book-card-body">
+                            <p><strong>Author:</strong> {{ book.author }}</p>
+                            <p><strong>Book ID:</strong> {{ book.book_id }}</p>
+                            {% if book.isbn %}<p><strong>ISBN:</strong> {{ book.isbn }}</p>{% endif %}
+                            {% if book.genre %}<p><strong>Genre:</strong> {{ book.genre }}</p>{% endif %}
+                            {% if book.publication_year %}<p><strong>Year:</strong> {{ book.publication_year }}</p>{% endif %}
+                            {% if book.publisher %}<p><strong>Publisher:</strong> {{ book.publisher }}</p>{% endif %}
+                            {% if book.page_count %}<p><strong>Pages:</strong> {{ book.page_count }}</p>{% endif %}
+                            {% if book.language %}<p><strong>Language:</strong> {{ book.language }}</p>{% endif %}
+                            {% if book.description %}<p class="book-description"><strong>Description:</strong> {{ book.description }}</p>{% endif %}
+                            <p><strong>Source:</strong> {{ book.get('source', 'Database') if book is mapping else 'Database' }}</p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No results found for your search.</p>
+        {% endif %}
+        
+        {% if total > 0 %}
+        <div class="pagination">
+            <div class="pagination-info">
+                Showing {{ books|length }} of {{ total }} results
+            </div>
+            <div class="pagination-controls">
+                {% if has_prev %}
+                    <a href="{{ url_for('books.search_books', page=page-1, query=query, sort=sort_by, order=sort_order, genre=genre, year_from=year_from, year_to=year_to, language=language) }}" class="page-link">&laquo; Previous</a>
+                {% endif %}
+                
+                <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+                
+                {% if has_next %}
+                    <a href="{{ url_for('books.search_books', page=page+1, query=query, sort=sort_by, order=sort_order, genre=genre, year_from=year_from, year_to=year_to, language=language) }}" class="page-link">Next &raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <a href="{{ url_for('books.search_books') }}" class="back-link">Back to Search</a>
+    </div>
+</body>
+</html>

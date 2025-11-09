@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Books Admin</h2>
+    <a href="{{ url_for('books.admin_add') }}" class="btn">Add new book</a>
+    <table class="admin-table">
+        <thead>
+            <tr><th>ID</th><th>Title</th><th>Author</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for b in books %}
+            <tr>
+                <td>{{ b.book_id }}</td>
+                <td>{{ b.title }}</td>
+                <td>{{ b.author }}</td>
+                <td>
+                    <a href="{{ url_for('books.admin_edit', book_id=b.book_id) }}">Edit</a> |
+                    <form action="{{ url_for('books.admin_delete', book_id=b.book_id) }}" method="post" style="display:inline" onsubmit="return confirm('Delete this book?');">
+                        <button type="submit" class="link-btn">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('books.search_books') }}" class="back-link">Back to Search</a>
+</div>
+{% endblock %}
