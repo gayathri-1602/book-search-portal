@@ -15,21 +15,64 @@
                     <article class="book-card">
                         {% if book.cover_url %}
                         <div class="book-cover">
-                            <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}">
+                            <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}" onerror="this.src='https://via.placeholder.com/180x270?text=No+Cover'">
                         </div>
                         {% endif %}
                         <div class="book-card-header">{{ book.title }}</div>
                         <div class="book-card-body">
-                            <p><strong>Author:</strong> {{ book.author }}</p>
-                            <p><strong>Book ID:</strong> {{ book.book_id }}</p>
-                            {% if book.isbn %}<p><strong>ISBN:</strong> {{ book.isbn }}</p>{% endif %}
-                            {% if book.genre %}<p><strong>Genre:</strong> {{ book.genre }}</p>{% endif %}
-                            {% if book.publication_year %}<p><strong>Year:</strong> {{ book.publication_year }}</p>{% endif %}
-                            {% if book.publisher %}<p><strong>Publisher:</strong> {{ book.publisher }}</p>{% endif %}
-                            {% if book.page_count %}<p><strong>Pages:</strong> {{ book.page_count }}</p>{% endif %}
-                            {% if book.language %}<p><strong>Language:</strong> {{ book.language }}</p>{% endif %}
-                            {% if book.description %}<p class="book-description"><strong>Description:</strong> {{ book.description }}</p>{% endif %}
-                            <p><strong>Source:</strong> {{ book.get('source', 'Database') if book is mapping else 'Database' }}</p>
+                            <p><strong>Author:</strong> <span style="font-size: 1.1rem; color: var(--primary-color); font-weight: 600;">{{ book.author }}</span></p>
+                            
+                            <div class="book-meta-grid">
+                                {% if book.genre %}
+                                <div>
+                                    <strong>Genre:</strong>
+                                    <span class="book-detail-badge badge-genre">{{ book.genre }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                {% if book.publication_year %}
+                                <div>
+                                    <strong>Published:</strong>
+                                    <span class="book-detail-badge badge-year">{{ book.publication_year }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                {% if book.language %}
+                                <div>
+                                    <strong>Language:</strong>
+                                    <span class="book-detail-badge badge-language">{{ book.language }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                {% if book.page_count %}
+                                <div>
+                                    <strong>Pages:</strong> {{ book.page_count }} pages
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div style="margin-top: 10px;">
+                                {% if book.isbn %}
+                                <p><strong>ISBN:</strong> <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">{{ book.isbn }}</code></p>
+                                {% endif %}
+                                
+                                {% if book.publisher %}
+                                <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+                                {% endif %}
+                                
+                                <p><strong>Book ID:</strong> #{{ book.book_id }}</p>
+                            </div>
+                            
+                            {% if book.description %}
+                            <div class="book-description">
+                                <strong style="display: block; margin-bottom: 8px; color: var(--primary-color);">📖 Description:</strong>
+                                {{ book.description }}
+                            </div>
+                            {% endif %}
+                            
+                            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                                <strong>Source:</strong> {{ book.get('source', 'Database') if book is mapping else 'Database' }}
+                            </p>
                         </div>
                     </article>
                 {% endfor %}

@@ -25,4 +25,4 @@ ENV FLASK_ENV=production
 EXPOSE 5000
 
 # Initialize database and run the application
-CMD python seed_db.py && gunicorn --bind 0.0.0.0:5000 "src.app:app"
+CMD ["sh", "-c", "python seed_db.py && gunicorn --bind 0.0.0.0:5000 'src.app:app'"]
