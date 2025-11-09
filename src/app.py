@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for
-from routes.books import books_bp
+from src.routes.books import books_bp
 
 app = Flask(__name__)
 
