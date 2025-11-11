@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Book Search Portal - Discover Your Next Read</title>
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-color: #00b894;
+            --accent-dark: #00a085;
+            --background-light: #f8f9fa;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --white: #ffffff;
+            --purple-light: #e0d5f7;
+            --teal-light: #d1f2eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--background-gradient);
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .hero-card {
+            background: var(--white);
+            padding: 50px 40px;
+            margin: 30px auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
+            border: 2px solid var(--purple-light);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--background-gradient);
+        }
+
+        .hero-card h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-card p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .launch-btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: var(--background-gradient);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .launch-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .launch-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .launch-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.15);
+            border: 2px solid var(--purple-light);
+            border-top: 4px solid var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.25);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .deployment-info {
+            background: var(--teal-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .deployment-info h3 {
+            color: var(--accent-dark);
+            margin-bottom: 10px;
+        }
+
+        .deployment-info p {
+            color: var(--text-primary);
+            margin: 5px 0;
+        }
+
+        .deployment-info code {
+            background: var(--white);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+        }
+
+        footer {
+            background: var(--text-primary);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        .countdown {
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .hero-card {
+                padding: 30px 20px;
+            }
+
+            .launch-btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .feature-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Book Search Portal</h1>
+        <p>Discover Your Next Great Read</p>
+    </header>
+
+    <div class="container">
+        <div class="hero-card">
+            <h2>Welcome to Book Search Portal</h2>
+            <p>A powerful Flask application for searching and discovering books. Search by title, author, genre, year, or language. Filter and sort results to find exactly what you're looking for.</p>
+            
+            <!-- UPDATE THIS URL WITH YOUR DEPLOYED FLASK APP URL -->
+            <!-- If deployed on Render, use: https://your-app-name.onrender.com -->
+            <!-- If deployed elsewhere, update the URL below -->
+            <a href="https://book-search-portal.onrender.com" class="launch-btn" id="launchBtn">
+                🚀 Launch Application
+            </a>
+            
+            <div class="countdown" id="countdown" style="display: none;">
+                Redirecting in <span id="timer">5</span> seconds...
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="icon">🔍</div>
+                <h3>Advanced Search</h3>
+                <p>Search through thousands of books by title, author, description, genre, publication year, and language.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🎯</div>
+                <h3>Smart Filtering</h3>
+                <p>Filter books by genre, year range, and language. Sort results by title, author, year, or genre.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📖</div>
+                <h3>Detailed Information</h3>
+                <p>View comprehensive book details including cover images, descriptions, ISBN, and more.</p>
+            </div>
+        </div>
+
+        <div class="deployment-info">
+            <h3>📝 Deployment Information</h3>
+            <p><strong>Status:</strong> Flask application requires a backend server (Python/Flask)</p>
+            <p><strong>GitHub Pages:</strong> This page serves as a landing page. The full application is hosted on a Flask server.</p>
+            <p><strong>To update the deployment URL:</strong> Edit the <code>href</code> attribute in the "Launch Application" button above in <code>index.html</code></p>
+            <p><strong>Recommended hosting:</strong> Render, Heroku, Railway, or any Python hosting service</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Book Search Portal</p>
+        <p>Built with Flask & Python | Hosted on GitHub Pages</p>
+    </footer>
+
+    <script>
+        // Optional: Auto-redirect after 10 seconds (uncomment to enable)
+        /*
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdown');
+        const timerElement = document.getElementById('timer');
+        const launchBtn = document.getElementById('launchBtn');
+        
+        countdownElement.style.display = 'block';
+        
+        const interval = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(interval);
+                window.location.href = launchBtn.href;
+            }
+        }, 1000);
+        */
+    </script>
+</body>
+</html>
+
